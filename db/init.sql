@@ -1,2 +1,3 @@
+-- CREATE DATABASE IF NOT EXISTS basepg
 SELECT 'CREATE DATABASE basepg'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE dataname = 'basepg' )\gexec
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'basepg' )\gexec
