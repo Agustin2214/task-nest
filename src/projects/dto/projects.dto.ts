@@ -1,4 +1,3 @@
-import {  ROLES } from 'src/constants/roles';
 import {  IsNotEmpty,  IsOptional, IsString } from 'class-validator';
 
 export class ProjectDTO {

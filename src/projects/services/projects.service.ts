@@ -3,10 +3,11 @@ import { ProjectsEntity } from '../entities/projects.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { ProjectDTO, ProjectUpdateDTO } from '../dto/projects.dto';
-import { useContainer } from 'class-validator';
+
 
 @Injectable()
 export class ProjectsService {
+    
     constructor(
         @InjectRepository(ProjectsEntity) private readonly projectRepository: Repository<ProjectsEntity>,
     ){}
