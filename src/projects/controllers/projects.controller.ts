@@ -6,7 +6,7 @@ import { ProjectDTO, ProjectUpdateDTO } from '../dto/projects.dto';
 export class ProjectsController {
     constructor(private readonly projectService: ProjectsService){}
 
-    @Post('register')
+    @Post('create')
     public async createProject(@Body() body: ProjectDTO){
         return await this.projectService.createProject(body)
     }

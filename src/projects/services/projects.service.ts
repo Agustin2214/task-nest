@@ -3,6 +3,7 @@ import { ProjectsEntity } from '../entities/projects.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { ProjectDTO, ProjectUpdateDTO } from '../dto/projects.dto';
+import { ErrorManager } from 'src/utils/error.manager';
 
 
 @Injectable()
@@ -16,28 +17,44 @@ export class ProjectsService {
             return await this.projectRepository.save(body)
         }
         catch(error){
-            throw new Error(error)
+            throw ErrorManager.createSignatureError(error.message)
         }
     }
 
     public async findProject(): Promise<ProjectDTO[]>{
         try{
-            return await this.projectRepository.find()
+            const project =  await this.projectRepository.find()
+            if(project.length ===0){
+                throw new ErrorManager({
+                    type:'NOT_FOUND',
+                    message:'No se encontro resultado'
+                    })
+            }
+
+            return project
         }
         catch(error){
-            throw new Error(error)
+            throw ErrorManager.createSignatureError(error.message)
         }
     }
 
     public async findProjectById(id: string): Promise<ProjectDTO>{
         try{
-            return await this.projectRepository
+            const project = await this.projectRepository
             .createQueryBuilder('project')
             .where({id:id})
             .getOne();
+            if(!project){
+                throw new ErrorManager({
+                    type:'NOT_FOUND',
+                    message:'No se encontro resultado'
+                    })
+            }
+            return project
+
         }
         catch(error){
-            throw new Error(error)
+            throw ErrorManager.createSignatureError(error.message)
         }
     }
 
@@ -45,13 +62,16 @@ export class ProjectsService {
         try{
            const project: UpdateResult = await this.projectRepository.update(id,body)
            if(project.affected === 0){
-            return undefined
+             throw new ErrorManager({
+                    type:'NOT_FOUND',
+                    message:'No se puedo editar projecto o no existe'
+                    })
         }
         return project
 
         }
         catch(error){
-            throw new Error(error)
+            throw ErrorManager.createSignatureError(error.message)
         }
     }
 
@@ -59,13 +79,16 @@ export class ProjectsService {
         try{
            const project: DeleteResult = await this.projectRepository.delete(id)
            if(project.affected === 0){
-            return undefined
+            throw new ErrorManager({
+                    type:'NOT_FOUND',
+                    message:'No se puedo eliminar projecto o no existe'
+                    })
         }
         return project
 
         }
         catch(error){
-            throw new Error(error)
+            throw ErrorManager.createSignatureError(error.message)
         }
     }
 
