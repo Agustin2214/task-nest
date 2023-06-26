@@ -12,6 +12,7 @@ export class ProjectsService {
     constructor(
         @InjectRepository(ProjectsEntity) private readonly projectRepository: Repository<ProjectsEntity>,
     ){}
+    
     public async createProject(body: ProjectDTO): Promise<ProjectDTO>{
         try{
             return await this.projectRepository.save(body)
@@ -43,6 +44,8 @@ export class ProjectsService {
             const project = await this.projectRepository
             .createQueryBuilder('project')
             .where({id:id})
+            .leftJoinAndSelect('project.usersIncludes','usersIncludes')
+            .leftJoinAndSelect('usersIncludes.user','user')
             .getOne();
             if(!project){
                 throw new ErrorManager({

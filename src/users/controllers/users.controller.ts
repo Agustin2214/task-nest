@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
-import { UserDTO, UserUpdateDTO } from '../dto/users.dto';
+import { UserDTO, UserProjectDTO, UserUpdateDTO } from '../dto/users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -9,6 +9,11 @@ export class UsersController {
     @Post('register')
     public async registerUser(@Body() body: UserDTO){
         return await this.usersService.createUser(body)
+    }
+
+    @Post('useraddproject')
+    public async userAddProject(@Body() body: UserProjectDTO){
+        return await this.usersService.createUserAddProject(body)
     }
 
     @Get('all')
