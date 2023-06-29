@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { UserDTO, UserProjectDTO, UserUpdateDTO } from '../dto/users.dto';
+import { PublicAccess } from 'src/auth/decorator/public.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
     constructor(private readonly usersService: UsersService){}
     
@@ -22,6 +25,7 @@ export class UsersController {
 
     }
 
+    @PublicAccess()
     @Get(':id')
     public async findUser(@Param('id') id: string){
         return await this.usersService.findUserById(id)

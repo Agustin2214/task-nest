@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ROLES } from '../../constants/roles';
-import { IUser } from '../../interface/user.interface';
+import { IUser } from '../interface/user.interface';
 import { BaseEntity } from '../../config/base.entity';
 import { UsersProjectsEntity } from './usersProjects.entity';
 import { Exclude } from 'class-transformer';

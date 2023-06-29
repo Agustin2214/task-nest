@@ -1,6 +1,6 @@
 
 import { IsNotEmpty, IsString } from 'class-validator';
-import { AuthBody } from '../interfaces/auth.interfaces';
+import { AuthBody } from '../interface/auth.interface';
 
 
 export class AuthDTO implements AuthBody {
