@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceConfig } from './config/data.source';
 import { ProjectsModule } from './projects/projects.module';
 import { ProjectsController } from './projects/controllers/projects.controller';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -18,7 +19,9 @@ import { ProjectsController } from './projects/controllers/projects.controller';
 
     UsersModule,
 
-    ProjectsModule
+    ProjectsModule,
+
+    AuthModule
   
   ],
   

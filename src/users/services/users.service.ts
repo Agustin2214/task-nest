@@ -2,23 +2,38 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from '../entities/users.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { UserDTO, UserUpdateDTO } from '../dto/users.dto';
+import { UserDTO, UserProjectDTO, UserUpdateDTO } from '../dto/users.dto';
 import { ErrorManager } from 'src/utils/error.manager';
+import { UsersProjectsEntity } from '../entities/usersProjects.entity';
+import * as bcrypt from 'bcrypt'
+
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(UsersEntity) private readonly userRepository: Repository<UsersEntity>,
+        @InjectRepository(UsersProjectsEntity) private readonly userProjectRespositoy: Repository<UsersProjectsEntity>,
     ){}
 
     public async createUser(body: UserDTO): Promise<UsersEntity>{
         try{
+            body.password = await bcrypt.hash (body.password, +process.env.HASH_SALT)
             return await this.userRepository.save(body)
         }
         catch(error){
             throw ErrorManager.createSignatureError(error.message)
         }
     }
+
+    public async createUserAddProject(body: UserProjectDTO): Promise<UsersProjectsEntity>{
+        try{
+            return await this.userProjectRespositoy.save(body)
+        }
+        catch(error){
+            throw ErrorManager.createSignatureError(error.message)
+        }
+    }
+
 
 
     public async findUser(): Promise<UsersEntity[]>{
@@ -45,6 +60,8 @@ export class UsersService {
             const user : UsersEntity = await this.userRepository
             .createQueryBuilder('user')
             .where({id:id})
+            .leftJoinAndSelect('user.projectsIncludes','projectsIncludes')
+            .leftJoinAndSelect('projectsIncludes.project','project')
             .getOne();
 
             if(!user){
@@ -98,4 +115,19 @@ export class UsersService {
     }
 
 
+
+    public async findBy({ key, value }: { key: keyof UserDTO; value: any }) {
+        try {
+          const user: UsersEntity = await this.userRepository
+            .createQueryBuilder('user')
+            .addSelect('user.password')
+            .where({ [key]: value })
+            .getOne();
+    
+          return user;
+        } catch (error) {
+          throw ErrorManager.createSignatureError(error.message);
+        }
+      }    
 }
+

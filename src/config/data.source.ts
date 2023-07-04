@@ -4,7 +4,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const path = require('path');
 const currentPath = __dirname
-const migrationsPath = path.resolve(currentPath, '..', '..', 'migrations/*{.ts,.js}');
+const migrationsPath = path.resolve(currentPath,  '..', 'migrations/*{.ts,.js}');
 
 
 ConfigModule.forRoot({
@@ -12,7 +12,7 @@ ConfigModule.forRoot({
   });
 
 const configService = new ConfigService();
-
+console.log()
 export const DataSourceConfig: DataSourceOptions = {
     type: 'postgres',
     host: configService.get('DB_HOST'),
