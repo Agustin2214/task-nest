@@ -21,7 +21,7 @@ export class UsersController {
         return await this.usersService.createUserAddProject(body)
     }
 
-    @Roles('BASIC')    
+    @Roles('ADMIN')    
     @Get('all')
     public async findAllUsers(){
         return await this.usersService.findUser()
@@ -29,22 +29,22 @@ export class UsersController {
     }
 
     @PublicAccess()
-    @Get(':id')
-    public async findUser(@Param('id') id: string){
+    @Get(':userid')
+    public async findUser(@Param('userid') id: string){
         return await this.usersService.findUserById(id)
 
     }
 
-    @Put('edit/:id')
+    @Put('edit/:userid')
     public async updateUser(
-        @Param('id') id: string,
+        @Param('userid') id: string,
         @Body() body: UserUpdateDTO
         ){
         return await this.usersService.updateUser(body, id)
     }
 
-    @Delete('delete/:id')
-    public async deleteUser(@Param('id') id:string){
+    @Delete('delete/:userid')
+    public async deleteUser(@Param('userid') id:string){
         return await this.usersService.deleteUser(id)
     }
 }
