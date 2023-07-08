@@ -43,7 +43,7 @@ if(!accessLevel){
 }
 }
 
-  if(roleUser === ROLES.ADMIN) return true
+  if(roleUser === ROLES.ADMIN || ROLES.CREATOR) return true
 
 
   const user = await this.userService.findUserById(idUser)

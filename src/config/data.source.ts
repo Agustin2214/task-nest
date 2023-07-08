@@ -5,7 +5,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 const path = require('path');
 const currentPath = __dirname
 const migrationsPath = path.resolve(currentPath,  '..', 'migrations/*{.ts,.js}');
-
+console.log(migrationsPath)
 
 ConfigModule.forRoot({
     envFilePath: `.${process.env.NODE_ENV}.env`,

@@ -11,11 +11,12 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 export class UsersController {
     constructor(private readonly usersService: UsersService){}
     
+    @PublicAccess()
     @Post('register')
     public async registerUser(@Body() body: UserDTO){
         return await this.usersService.createUser(body)
     }
-
+    
     @Post('useraddproject')
     public async userAddProject(@Body() body: UserProjectDTO){
         return await this.usersService.createUserAddProject(body)
@@ -28,7 +29,7 @@ export class UsersController {
 
     }
 
-    @PublicAccess()
+    
     @Get(':userid')
     public async findUser(@Param('userid') id: string){
         return await this.usersService.findUserById(id)

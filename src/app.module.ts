@@ -6,6 +6,7 @@ import { DataSourceConfig } from './config/data.source';
 import { ProjectsModule } from './projects/projects.module';
 import { ProjectsController } from './projects/controllers/projects.controller';
 import { AuthModule } from './auth/auth.module';
+import { TasksModule } from './tasks/tasks.module';
 
 
 @Module({
@@ -21,7 +22,9 @@ import { AuthModule } from './auth/auth.module';
 
     ProjectsModule,
 
-    AuthModule
+    AuthModule,
+
+    TasksModule
   
   ],
   
