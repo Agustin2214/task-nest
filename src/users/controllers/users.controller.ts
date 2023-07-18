@@ -22,7 +22,7 @@ export class UsersController {
         return await this.usersService.createUserAddProject(body)
     }
 
-    @Roles('ADMIN')    
+   
     @Get('all')
     public async findAllUsers(){
         return await this.usersService.findUser()

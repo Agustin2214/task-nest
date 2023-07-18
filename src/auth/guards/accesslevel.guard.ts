@@ -43,13 +43,12 @@ if(!accessLevel){
 }
 }
 
-  if(roleUser === ROLES.ADMIN || ROLES.CREATOR) return true
 
+  if(roleUser === ROLES.ADMIN || roleUser === ROLES.CREATOR) return true
 
   const user = await this.userService.findUserById(idUser)
 
   const userInproject = user.projectsIncludes.find((project => project.project.id === req.params.projectid))
-
    if(!userInproject){
      throw new UnauthorizedException('No tienes permisos en este proyecto')
    }

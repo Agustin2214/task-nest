@@ -56,27 +56,25 @@ export class ProjectsService {
 
 
 
-    public async findProjectById(id: string): Promise<ProjectDTO>{
-        try{
-            const project = await this.projectRepository
+    public async findProjectById(id: string): Promise<ProjectsEntity> {
+        try {
+          const project = await this.projectRepository
             .createQueryBuilder('project')
-            .where({id:id})
+            .where({ id })
             .leftJoinAndSelect('project.usersIncludes','usersIncludes')
             .leftJoinAndSelect('usersIncludes.user','user')
             .getOne();
-            if(!project){
-                throw new ErrorManager({
-                    type:'NOT_FOUND',
-                    message:'No se encontro resultado'
-                    })
-            }
-            return project
-
+          if (!project) {
+            throw new ErrorManager({
+              type: 'BAD_REQUEST',
+              message: 'No existe proyecto con el id ' + id,
+            });
+          }
+          return project;
+        } catch (error) {
+          throw ErrorManager.createSignatureError(error.message);
         }
-        catch(error){
-            throw ErrorManager.createSignatureError(error.message)
-        }
-    }
+      }
 
     public async updateProject(id: string, body: ProjectUpdateDTO): Promise<UpdateResult | undefined >{
         try{

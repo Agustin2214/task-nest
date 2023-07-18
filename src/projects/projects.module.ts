@@ -10,11 +10,11 @@ import { UsersService } from 'src/users/services/users.service';
 
 
 @Module({
-
-  imports: [
+imports: [
     TypeOrmModule.forFeature([ProjectsEntity, UsersProjectsEntity]), UsersModule
   ],
   controllers: [ProjectsController],
-  providers: [ProjectsService,UsersService]
+  providers: [ProjectsService,UsersService],
+  exports: [ProjectsService]
 })
 export class ProjectsModule {}

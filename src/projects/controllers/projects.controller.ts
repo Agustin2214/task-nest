@@ -30,7 +30,7 @@ export class ProjectsController {
 
     }
 
-    @AccessLevel(50)
+    @AccessLevel('OWNER')
     @Put('edit/:projectid')
     public async updateProject(
         @Param('projectid') id: string,
